@@ -27,6 +27,7 @@ import { createShape } from "./shape.js";
 // Settings variables should contain all of the "fixed" parts of your programs
 // For example: which notes you can play, how fast things move, the tempo.
 const note = "C4"; // the note played when the pointer goes down
+const historyLength = 8; //store up to 8 historical coordinate points
 
 // ---------- State ----------
 // State variables are the parts of your program that change over time.
@@ -39,6 +40,10 @@ let lastX= pointerX,lastY =pointerY;         // pointer position at the previous
 let lastTime= 0;                //time of previous event
 let toneStarted = false;
 let lastMoveTime =0; //record the time of the last mouse movement
+let totalDistance = 0;
+
+//array
+let positionHistory = [];
 
 // ---------- Sound ----------
 // Make the instruments and plug them into the speakers.
@@ -52,6 +57,20 @@ function update() {
   const now = performance.now();
   if (now - lastMoveTime > 200){
     speed = 0;
+  }
+
+  totalDistance = 0; //loop through the movment history and add up the total distance traveled
+  for (let i = 1; i < positionHistory.length; i++ ){
+    const previoisPoint = positionHistory [i - 1];
+    const currentPoint = positionHistory[i];
+    const deltaX = currentPoint.x - previoisPoint.x;
+    const deltaY = currentPoint.y - previoisPoint.y;
+    totalDistance += Math.hypot(deltaX, deltaY);
+  }
+
+  //limit the history array to keep only the most recent points
+  if (positionHistory.length > historyLength){
+    positionHistory.shift();
   }
 
 }
@@ -86,6 +105,9 @@ function pointerDown(event) {
  function pointerMove(event){
   const currentTime =performance.now();  //current time(milliseconds)
   lastMoveTime = currentTime; //uppdate the last move time
+
+  positionHistory.push({x: event.clientX, y:event.clientY});
+
   if (lastTime > 0){      //the first event has no "previous" event, so skip it
     const secondsSinceLastMove = (currentTime - lastTime)/1000;    //seconds since the last event
     const distance = Math.hypot(event.clientX - lastX, event.clientY - lastY);   //distance moved in pixels
@@ -101,6 +123,8 @@ function pointerDown(event) {
  //when the mouse moves away or the pointer is lost, immediately reset speed
  function pointerLost(){
   speed = 0;    //release the mouse button to reset the speed
+  positionHistory = [];
+  totalDistance = 0;
  }
 // ---------- Setup ----------
 // Setup is run once, at the start of the program. It sets everything up for us!
