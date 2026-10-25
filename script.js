@@ -63,8 +63,8 @@ function update() {
   for (let i = 1; i < positionHistory.length; i++ ){
     const previousPoint = positionHistory [i - 1];
     const currentPoint = positionHistory[i];
-    const deltaX = currentPoint.x - previoisPoint.x;
-    const deltaY = currentPoint.y - previoisPoint.y;
+    const deltaX = currentPoint.x - previousPoint.x;
+    const deltaY = currentPoint.y - previousPoint.y;
     totalDistance += Math.hypot(deltaX, deltaY);
   }
 
