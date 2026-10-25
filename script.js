@@ -61,7 +61,7 @@ function update() {
 
   totalDistance = 0; //loop through the movment history and add up the total distance traveled
   for (let i = 1; i < positionHistory.length; i++ ){
-    const previoisPoint = positionHistory [i - 1];
+    const previousPoint = positionHistory [i - 1];
     const currentPoint = positionHistory[i];
     const deltaX = currentPoint.x - previoisPoint.x;
     const deltaY = currentPoint.y - previoisPoint.y;
