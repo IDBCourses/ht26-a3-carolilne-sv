@@ -38,6 +38,7 @@ let speed =0;                  //pinter speed(pixels/second)-calulated across ev
 let lastX= pointerX,lastY =pointerY;         // pointer position at the previous event
 let lastTime= 0;                //time of previous event
 let toneStarted = false;
+let lastMoveTime =0; //record the time of the last mouse movement
 
 // ---------- Sound ----------
 // Make the instruments and plug them into the speakers.
@@ -47,7 +48,12 @@ const dot = createShape();
 // ---------- Update ----------
 // Update the state. This is called every 100ms.
 function update() {
-   // call update() again in 100 milliseconds
+  //timeout safeguard:if there is no mouse movement for more than 200ms, force speed to 0 and stop spound playback
+  const now = performance.now();
+  if (now - lastMoveTime > 200){
+    speed = 0;
+  }
+
 }
 
 // ---------- Use ----------
@@ -79,6 +85,7 @@ function pointerDown(event) {
 
  function pointerMove(event){
   const currentTime =performance.now();  //current time(milliseconds)
+  lastMoveTime = currentTime; //uppdate the last move time
   if (lastTime > 0){      //the first event has no "previous" event, so skip it
     const secondsSinceLastMove = (currentTime - lastTime)/1000;    //seconds since the last event
     const distance = Math.hypot(event.clientX - lastX, event.clientY - lastY);   //distance moved in pixels
@@ -91,7 +98,8 @@ function pointerDown(event) {
   lastTime = currentTime;
  }
 
- function pointerUp(){
+ //when the mouse moves away or the pointer is lost, immediately reset speed
+ function pointerLost(){
   speed = 0;    //release the mouse button to reset the speed
  }
 // ---------- Setup ----------
@@ -108,8 +116,9 @@ setInterval(loop, 100)
  window.addEventListener("pointermove", pointerMove);  //add the pointermove event listener
   // Put your event listener code here
   window.addEventListener("pointerdown", pointerDown);
-  window.addEventListener("pointerup", pointerUp);
-  window.addEventListener("pointerleave", pointerUp);
+  window.addEventListener("pointerup", pointerLost);
+  window.addEventListener("pointerleave", pointerLost);
+  window.addEventListener("pointercancel", pointerLost);
 }
 
 setup(); // Always remember to call setup()!
