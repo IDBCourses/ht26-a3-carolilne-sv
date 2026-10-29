@@ -3,19 +3,27 @@
 **Play it here:** <!-- Paste your GitHub Pages link here, e.g. https://idbcourses.github.io/your-repo-name/ -->
 
 **Name:** <!-- Your name and MAU ID -->
-
+Caroline Wang At1220
 <!-- One or two sentences: what kind of instrument is it, and what is it like to play? -->
+
+This is a pointer-speed synthesiser. It is played by moving your mouse or touch pointer quickly or slowly across the screen; faster movement creates higherm changing pitches and brighter colours.
+
 
 ## How to play
 
 <!-- Fill in the table with a row for everything the player can do with the pointer: clicking, moving slowly or fast, moving in circles, holding still... Say what happens to the sound and to the shapes. If you added keys, give them rows too. -->
 
-| When you...  | The sound...                         | The shapes... |
-| ------------ | ------------------------------------ | ------------- |
-| Click or tap | Plays a C4 (the example: replace it) | Nothing yet   |
-|              |                                      |               |
+| When you...                              | The sound...                                              | The shapes...                                       |
+| ---------------------------------------- | --------------------------------------------------------- | --------------------------------------------------- |
+| Click or tap anywhere on the screen      | Plays a fixed C4 note                                     | No immediate change to the dot                      |
+| Move the pointer slowly across screen    | No sound(speed is below threshold)                        | The dot follows the pointer and stays red           |
+| Move the pointer quickly across screen   | Plays short notes, faster movement makes the pitch higher | The dot follows the pointer and changes hue(colour) |
+| Stop moving the pointer for a short time | Sound stops autimatically                                 | The dot keeps its last colour, stay still           |
+| Move pointer off the browser window      | Sound stops immediately                                   | The dot stops updating and stays still              |
 
 <!-- Anything else a player needs to know: how to get started, a good thing to try first. -->
+
+Tips: Try sweeping the pointer back and forth quickly to make a rising and falling melody. Make sure you click once first to turn the audio engine on(browser aduio rule).
 
 ---
 
